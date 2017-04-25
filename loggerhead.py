@@ -88,9 +88,3 @@ def load_ipython_extension(ip):
     log = Loggerhead(ip)
     # ip.events.register('pre_run_cell', log.start)
     ip.events.register('post_run_cell', log.stop)
-
-
-# def unload_ipython_extension(ip):
-    # """On unload"""
-    # ip.events.unregister('pre_run_cell', start)
-    # ip.events.unregister('post_run_cell', stop)
