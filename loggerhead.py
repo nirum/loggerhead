@@ -7,7 +7,7 @@ IGNORE = {
     'start': ('plt', 'cd', 'print', 'mkdir', '!', '%', 'close'),
     'end': ('shape', '?'),
 }
-VERSION = '0.0.2'
+VERSION = '0.0.3'
 
 
 def isvalid(code):
