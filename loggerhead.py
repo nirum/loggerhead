@@ -8,7 +8,6 @@ IGNORE = {
     'end': ('shape', '?'),
 }
 VERSION = '0.0.2'
-DEBUG = False
 
 
 def isvalid(code):
@@ -37,10 +36,8 @@ def isvalid(code):
 
 
 class Loggerhead:
-    """Docstring for Loggerhead. """
 
     def __init__(self, ip):
-        """TODO: to be defined1. """
         self.shell = ip
         self.history = ip.history_manager
 
@@ -64,27 +61,18 @@ class Loggerhead:
         # entry message
         print('Logging history to {}'.format(self.fullpath))
 
-    def start(self):
-        pass
+    def post_run_cell(self, result):
+        """Logs the previous IPython command to a file."""
 
-    def stop(self):
-        """Logs the previous IPython command to a file"""
-        # get the previous session, line, and code
-        session, line, code = next(self.history.get_range(start=-1))
+        # get the previous command
+        code = result.info.raw_cell
 
         if isvalid(code):
             with open(self.fullpath, 'a') as f:
-
-                # debug
-                if DEBUG:
-                    print('Logging [{}] {}'.format(line, code))
-
                 # write to the log file
                 f.write('\n# {}\n{}'.format(time.strftime('%I:%M:%S %p'), code))
 
 
 def load_ipython_extension(ip):
-    """On load"""
     log = Loggerhead(ip)
-    # ip.events.register('pre_run_cell', log.start)
-    ip.events.register('post_run_cell', log.stop)
+    ip.events.register('post_run_cell', log.post_run_cell)
